@@ -54,8 +54,8 @@ class Model(nn.Module):
 		self.softmax = nn.Softmax(dim=0)
 		self.leakyrelu = nn.LeakyReLU(0.2)
 
-		self.rop2 = ROProjection2(args.clear_rank, args.clear_lam, args.clear_text) if args.clear_rank > 0 else None
-		self.rop3 = ROProjection3(args.clear_rank, args.clear_lam) if args.clear_rank > 0 else None
+		self.rop2 = SOProjection2(args.sop_rank, args.sop_lam, args.sop_text) if args.sop_rank > 0 else None
+		self.rop3 = SOProjection3(args.sop_rank, args.sop_lam) if args.sop_rank > 0 else None
 
 	def getItemEmbeds(self):
 		return self.iEmbeds
@@ -235,9 +235,9 @@ class SpAdjDropEdge(nn.Module):
 		return torch.sparse_coo_tensor(newIdxs, newVals, adj.shape)
 
 
-class ROProjection2(nn.Module):
+class SOProjection2(nn.Module):
 	def __init__(self, rank=4, lam=1.0, project_text=True):
-		super(ROProjection2, self).__init__()
+		super(SOProjection2, self).__init__()
 		self.rank = rank
 		self.lam = lam
 		self.project_text = project_text
@@ -257,10 +257,10 @@ class ROProjection2(nn.Module):
 		return x_perp, y_perp
 
 
-class ROProjection3(nn.Module):
+class SOProjection3(nn.Module):
     def __init__(self, rank=4, lam=1.0, project_modalities=(True, True, True),
                  detach_basis=True, eps=1e-6):
-        super(ROProjection3, self).__init__()
+        super(SOProjection3, self).__init__()
         self.rank = rank
         self.lam = lam
         self.project_modalities = project_modalities

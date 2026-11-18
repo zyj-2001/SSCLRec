@@ -8,7 +8,7 @@ def ParseArgs():
 	parser.add_argument('--tstBat', default=256, type=int, help='number of users in a testing batch')
 	parser.add_argument('--reg', default=1e-5, type=float, help='weight decay regularizer')
 	parser.add_argument('--epoch', default=50, type=int, help='number of epochs')
-	parser.add_argument('--latdim', default=512, type=int, help='embedding size')
+	parser.add_argument('--latdim', default=64, type=int, help='embedding size')
 	parser.add_argument('--gnn_layer', default=1, type=int, help='number of gnn layers')
 	parser.add_argument('--topk', default=20, type=int, help='K of top K')
 	parser.add_argument('--data', default='baby', choices=('baby', 'sports', 'tiktok'), help='name of dataset')
@@ -43,11 +43,11 @@ def ParseArgs():
 	parser.add_argument('--trans', type=int, default=0, help='0: R*R, 1: Linear, 2: allrecipes')
 	parser.add_argument('--cl_method', type=int, default=0, help='0:m vs m ; 1:m vs main')
 
-	parser.add_argument('--clear_rank', type=int, default=0,
-		help='CLEAR null-space rank r (0 = disabled); removes top-r shared SVD directions between image & text')
-	parser.add_argument('--clear_lam', type=float, default=1.0,
-		help='CLEAR projection strength λ (1.0 = full removal)')
-	parser.add_argument('--clear_text', action='store_true', default=False,
+	parser.add_argument('--sop_rank', type=int, default=0,
+		help='removes top-r shared SVD directions between image & text')
+	parser.add_argument('--sop_lam', type=float, default=1.0,
+		help='sop projection strength λ (1.0 = full removal)')
+	parser.add_argument('--sop_text', action='store_true', default=False,
 		help='also project text to its null-space (default: text-first, keep text full)')
 
 	return parser.parse_args()
