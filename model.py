@@ -54,8 +54,8 @@ class Model(nn.Module):
 		self.softmax = nn.Softmax(dim=0)
 		self.leakyrelu = nn.LeakyReLU(0.2)
 
-		self.rop2 = SOProjection2(args.sop_rank, args.sop_lam, args.sop_text) if args.sop_rank > 0 else None
-		self.rop3 = SOProjection3(args.sop_rank, args.sop_lam) if args.sop_rank > 0 else None
+		self.sop2 = SOProjection2(args.sop_rank, args.sop_lam, args.sop_text) if args.sop_rank > 0 else None
+		self.sop3 = SOProjection3(args.sop_rank, args.sop_lam) if args.sop_rank > 0 else None
 
 	def getItemEmbeds(self):
 		return self.iEmbeds
@@ -84,10 +84,10 @@ class Model(nn.Module):
 			audio_feats = None
 
 
-		if self.rop2 is not None and args.data != 'tiktok':
-			image_feats, text_feats = self.rop2(image_feats, text_feats)
-		if self.rop3 is not None and args.data == 'tiktok' :	
-			image_feats, text_feats, audio_feats = self.rop3(image_feats, text_feats, audio_feats)
+		if self.sop2 is not None and args.data != 'tiktok':
+			image_feats, text_feats = self.sop2(image_feats, text_feats)
+		if self.sop3 is not None and args.data == 'tiktok':
+			image_feats, text_feats, audio_feats = self.sop3(image_feats, text_feats, audio_feats)
 		
 		return image_feats, text_feats, audio_feats
 
